@@ -35,7 +35,6 @@ export const CSVUploader = ({ onEnglishLoad, onArabicLoad, englishLoaded, arabic
 
   return (
     <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-      {/* English Upload */}
       <div className={`bg-white rounded-lg shadow p-6 ${englishLoaded ? 'border-2 border-green-500 bg-green-50' : ''}`}>
         <div className="mb-2 flex items-center gap-2">
           <FileText className="h-5 w-5" />
@@ -70,7 +69,6 @@ export const CSVUploader = ({ onEnglishLoad, onArabicLoad, englishLoaded, arabic
         )}
       </div>
 
-      {/* Arabic Upload */}
       <div className={`bg-white rounded-lg shadow p-6 ${arabicLoaded ? 'border-2 border-blue-500 bg-blue-50' : ''}`}>
         <div className="mb-2 flex items-center gap-2">
           <FileText className="h-5 w-5" />

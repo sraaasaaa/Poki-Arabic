@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import { TranslationCard } from './components/TranslationCard';
-import { ProgressList } from './components/ProgressList';
 import { Download, Upload } from 'lucide-react';
 import { TranslationPair } from './types/TransVerifyTypes';
 import { generateCSV, downloadCSV } from './utils/csvParser';
+import { Rules } from './components/Rules'
 
 const STORAGE_KEY = 'transVerifyData';
 const CHUNK_SIZE = 500;
@@ -18,9 +18,6 @@ export default function App() {
   const [englishRows, setEnglishRows] = useState<string[]>([]);
   const [arabicRows, setArabicRows] = useState<string[]>([]);
 
-  /* ======================
-     Load saved progress
-  ====================== */
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
@@ -37,9 +34,6 @@ export default function App() {
     setIsLoaded(true);
   }, []);
 
-  /* ======================
-     Save progress
-  ====================== */
   useEffect(() => {
     if (pairs.length > 0) {
       localStorage.setItem(
@@ -49,9 +43,6 @@ export default function App() {
     }
   }, [pairs, currentIndex]);
 
-  /* ======================
-     CSV Upload
-  ====================== */
   const handleCSVUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
     isEnglish: boolean
@@ -80,9 +71,6 @@ export default function App() {
     });
   };
 
-  /* ======================
-     Create pairs (once)
-  ====================== */
   useEffect(() => {
     if (
       pairs.length === 0 &&
@@ -107,9 +95,6 @@ export default function App() {
     }
   }, [englishRows, arabicRows, pairs.length]);
 
-  /* ======================
-     Handlers
-  ====================== */
   const handleSave = (arabicText: string) => {
     setPairs((prev) => {
       const updated = [...prev];
@@ -136,9 +121,6 @@ export default function App() {
     return Math.max(0, start - 1);
   };
 
-  /* ======================
-     Export reviewed Arabic
-  ====================== */
   const handleExport = () => {
     const csv = generateCSV(
       pairs.map((p) => ({
@@ -151,9 +133,6 @@ export default function App() {
   const verifiedCount = pairs.filter((p) => p.verified).length;
   const currentPair = pairs[currentIndex] || null;
 
-  /* ======================
-     Upload screen
-  ====================== */
   if (!isLoaded || pairs.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8 flex flex-col items-center justify-center space-y-6">
@@ -162,10 +141,9 @@ export default function App() {
         </h2>
 
         <div className="flex flex-col md:flex-row gap-6">
-          {/* English */}
           <div className="flex flex-col items-center gap-3">
             <span className="font-semibold">English CSV</span>
-          
+
             <label className="btn btn-blue">
               Choose English CSV
               <input
@@ -178,7 +156,6 @@ export default function App() {
 
           </div>
 
-          {/* Arabic */}
           <div className="flex flex-col items-center gap-3">
             <span className="font-semibold">Arabic CSV</span>
             <label className="btn btn-green">
@@ -205,16 +182,15 @@ export default function App() {
     );
   }
 
-  /* ======================
-     Main App
-  ====================== */
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        {/* Header */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
           <div>
-            <p className="text-black-600 mt-2">
+            <p
+              className="mt-2 font-bold text-xl"
+              style={{ color: '#696054' }}
+            >
               Verify and correct Arabic translations
             </p>
           </div>
@@ -223,7 +199,7 @@ export default function App() {
             <Download size={16} />
             Export Reviewed
           </button>
-            
+
         </div>
 
         <TranslationCard
@@ -236,12 +212,9 @@ export default function App() {
           onPrevious={handlePrevious}
           canGoPrevious={currentIndex > 0}
         />
+        <Rules />
 
-        <ProgressList
-          pairs={pairs}
-          currentIndex={currentIndex}
-          onSelectIndex={setCurrentIndex}
-        />
+
       </div>
     </div>
   );

@@ -31,18 +31,12 @@ export function TranslationCard({
   const englishRef = useRef<HTMLTextAreaElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  /* ======================
-     Sync Arabic when pair changes
-  ====================== */
   useEffect(() => {
     if (pair) {
       setArabic(pair.arVerified || pair.ar || '');
     }
   }, [pair]);
 
-  /* ======================
-     Auto-resize English textarea
-  ====================== */
   useEffect(() => {
     if (englishRef.current) {
       englishRef.current.style.height = 'auto';
@@ -51,9 +45,6 @@ export function TranslationCard({
     }
   }, [pair]);
 
-  /* ======================
-     Insert Arabic character
-  ====================== */
   const insertChar = (char: string) => {
     const el = textareaRef.current;
     if (!el) return;
@@ -73,9 +64,6 @@ export function TranslationCard({
   };
   const progressPercent = Math.round((verifiedCount / total) * 100);
 
-  /* ======================
-     Copy English text
-  ====================== */
   const copyEnglishToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(pair?.en || '');
@@ -88,7 +76,6 @@ export function TranslationCard({
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-6">
-      {/* Progress */}
       <div className="space-y-2">
         <div className="flex justify-between text-xs text-gray-600">
           <span>{verifiedCount} verified</span>
@@ -104,51 +91,47 @@ export function TranslationCard({
       </div>
 
 
-      {/* English */}
-<div className="space-y-2">
-  <div className="flex justify-between items-center">
-    <label className="label">English</label>
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <label className="label">English</label>
 
-    <button
-      onClick={copyEnglishToClipboard}
-      className="btn-icon"
-      title="Copy English text"
-      aria-label="Copy English text"
-    >
-      <Copy />
-    </button>
-  </div>
+          <button
+            onClick={copyEnglishToClipboard}
+            className="btn-icon"
+            title="Copy English text"
+            aria-label="Copy English text"
+          >
+            <Copy />
+          </button>
+        </div>
 
-  <p className="text-gray-900 text-sm leading-relaxed">
-    {pair.en}
-  </p>
-</div>
+        <p className="text-gray-900 text-sm leading-relaxed">
+          {pair.en}
+        </p>
+      </div>
 
 
-      {/* Arabic input */}
       <div>
         <label className="font-semibold mb-1 block">Arabic</label>
         <textarea
-  ref={textareaRef}
-  value={arabic}
-  onChange={(e) => setArabic(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // stop newline
-      onSave(arabic);     // trigger save
-    }
-  }}
-  className="w-full border rounded-lg p-2 resize-none text-right"
-  rows={4}
-  dir="rtl"
-/>
+          ref={textareaRef}
+          value={arabic}
+          onChange={(e) => setArabic(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              onSave(arabic);
+            }
+          }}
+          className="w-full border rounded-lg p-2 resize-none text-right"
+          rows={4}
+          dir="rtl"
+        />
 
       </div>
 
-      {/* Arabic keyboard */}
       <ArabicKeyboard buttonSize="lg" onInsert={insertChar} />
 
-      {/* Actions */}
       <div className="flex justify-between pt-2">
         <button
           onClick={onPrevious}

@@ -15,7 +15,7 @@ const KEYS = [
 ];
 
 export function ArabicKeyboard({ onInsert, buttonSize = 'md' }: ArabicKeyboardProps) {
-  let sizeClass = 'px-2 py-1.5 text-lg'; // default md
+  let sizeClass = 'px-2 py-1.5 text-lg'; 
   if (buttonSize === 'sm') sizeClass = 'px-1.5 py-1 text-base';
   if (buttonSize === 'md') sizeClass = 'px-2 py-1.5 text-lg';
   if (buttonSize === 'lg') sizeClass = 'px-2.5 py-2 text-xl';
@@ -26,7 +26,7 @@ export function ArabicKeyboard({ onInsert, buttonSize = 'md' }: ArabicKeyboardPr
   return (
     <div className="flex flex-col gap-1.5 p-2 bg-gray-50 rounded border">
       {rows.map((row, idx) => (
-        <div key={idx} className="flex justify-center gap-2"> {/* small gap between letters */}
+        <div key={idx} className="flex justify-center gap-2">
           {row.map((key) => (
             <button
               key={key}
