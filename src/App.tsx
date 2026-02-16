@@ -5,6 +5,7 @@ import { Download, Upload } from 'lucide-react';
 import { TranslationPair } from './types/TransVerifyTypes';
 import { generateCSV, downloadCSV } from './utils/csvParser';
 import { Rules } from './components/Rules'
+import { ProgressList } from './components/ProgressList'
 
 const STORAGE_KEY = 'transVerifyData';
 const CHUNK_SIZE = 500;
@@ -211,6 +212,12 @@ export default function App() {
           onSkip={handleSkip}
           onPrevious={handlePrevious}
           canGoPrevious={currentIndex > 0}
+        />
+
+        <ProgressList
+          pairs={pairs}
+          currentIndex={currentIndex}
+          onSelectIndex={(index) => setCurrentIndex(index)}
         />
         <Rules />
 
